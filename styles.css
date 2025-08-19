@@ -427,10 +427,26 @@ body {
     .header .container {
         flex-direction: column;
         gap: 15px;
+        padding: 10px 20px;
     }
     
     .nav-list {
-        gap: 15px;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-list a {
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 15px;
+        white-space: nowrap;
+        min-width: auto;
+        text-align: center;
+    }
+    
+    .logo-text {
+        font-size: 20px;
     }
     
     .banner-overlay {
@@ -462,6 +478,24 @@ body {
 @media (max-width: 480px) {
     .container {
         padding: 0 15px;
+    }
+    
+    .header .container {
+        padding: 8px 15px;
+    }
+    
+    .nav-list {
+        gap: 6px;
+    }
+    
+    .nav-list a {
+        padding: 6px 10px;
+        font-size: 13px;
+        border-radius: 12px;
+    }
+    
+    .logo-text {
+        font-size: 18px;
     }
     
     .banner-title {
