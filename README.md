@@ -167,5 +167,5 @@ MIT License
 ---
 
 **开发者**：Vue.js全栈工程师  
-**联系方式**：info@gzparks.com  
-**项目地址**：https://github.com/your-username/gz-parks
+**联系方式**：gyratesky@gmail.com
+**项目地址**：https://github.com/gyrate/gz-parks

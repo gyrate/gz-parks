@@ -300,7 +300,7 @@ function renderParks(parks) {
     parksGrid.innerHTML = parks.map(park => `
         <div class="park-card" data-id="${park.id}">
             <img src="${park.image}" alt="${park.name}" class="park-image" 
-                 onerror="this.style.background='linear-gradient(135deg, #4a90e2 0%, #2e7d32 100%)'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='white'; this.style.fontSize='18px'; this.style.fontWeight='bold'; this.innerHTML='${park.name}';">
+                 onerror="this.src='default-park.svg'; this.onerror=null;">
             <div class="park-content">
                 <h3 class="park-name">${park.name}</h3>
                 <div class="park-location">
