@@ -234,6 +234,14 @@ function initChart() {
             name: '公园数量',
             type: 'bar',
             data: data,
+            label: {
+                show: true,
+                position: 'top',
+                color: '#2e7d32',
+                fontSize: 12,
+                fontWeight: 'bold',
+                formatter: '{c}个'
+            },
             itemStyle: {
                 color: function(params) {
                     const colors = [
@@ -435,6 +443,21 @@ function createFallbackChart() {
             数据统计：共${parksData.length}个公园
         </div>
     `;
+}
+
+/**
+ * 滚动到公园列表区域
+ * @description 平滑滚动到公园列表部分，提供良好的用户体验
+ */
+function scrollToParks() {
+    const parksSection = document.getElementById('parks');
+    if (parksSection) {
+        const offsetTop = parksSection.offsetTop - 70; // 考虑固定头部高度
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
+    }
 }
 
 // 页面加载完成后初始化应用
