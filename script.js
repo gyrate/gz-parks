@@ -155,6 +155,12 @@ function initMap() {
                     <p style="margin: 5px 0; color: #666;"><strong>开放时间：</strong>${park.openTime}</p>
                     <p style="margin: 5px 0; color: #666;"><strong>收费：</strong>${park.fee}</p>
                     <p style="margin: 5px 0; color: #666; font-size: 12px;">${park.description}</p>
+                    <div style="margin-top: 10px; text-align: center;">
+                        <button onclick="openNavigation('${park.name}', ${park.coordinates[0]}, ${park.coordinates[1]})" 
+                                style="background: linear-gradient(135deg, #4a90e2 0%, #2e7d32 100%); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold;">
+                            🧭 地图导航
+                        </button>
+                    </div>
                 </div>
             `
         });
@@ -321,6 +327,14 @@ function renderParks(parks) {
                     ${park.fee === '免费' ? '🆓 免费开放' : '💰 收费景区'}
                 </div>
                 <p class="park-description">${park.description}</p>
+                <div class="park-actions" style="margin-top: 15px; text-align: center;">
+                    <button onclick="openNavigation('${park.name}', ${park.coordinates[0]}, ${park.coordinates[1]})" 
+                            class="nav-button" style="background: linear-gradient(135deg, #4a90e2 0%, #2e7d32 100%); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 14px; font-weight: bold; transition: transform 0.2s ease, box-shadow 0.2s ease;" 
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(74, 144, 226, 0.3)';" 
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        🧭 地图导航
+                    </button>
+                </div>
             </div>
         </div>
     `).join('');
@@ -458,6 +472,76 @@ function scrollToParks() {
             behavior: 'smooth'
         });
     }
+}
+
+/**
+ * 打开地图导航
+ * @description 调用高德地图app进行导航，支持多种设备和浏览器环境
+ * @param {string} name - 目的地名称
+ * @param {number} lng - 经度
+ * @param {number} lat - 纬度
+ */
+function openNavigation(name, lng, lat) {
+    // 高德地图导航URL scheme
+    const amapUrl = `amapuri://route/plan/?dlat=${lat}&dlon=${lng}&dname=${encodeURIComponent(name)}&dev=0&t=0`;
+    
+    // 高德地图网页版导航URL（备用方案）
+    const webUrl = `https://uri.amap.com/navigation?to=${lng},${lat},${encodeURIComponent(name)}&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=1`;
+    
+    // 检测设备类型
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+        // 移动设备：尝试打开高德地图app
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = amapUrl;
+        document.body.appendChild(iframe);
+        
+        // 如果app未安装，2秒后跳转到网页版
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+            window.open(webUrl, '_blank');
+        }, 2000);
+        
+        // 显示提示信息
+        showNavigationTip('正在启动高德地图导航...');
+    } else {
+        // 桌面设备：直接打开网页版导航
+        window.open(webUrl, '_blank');
+        showNavigationTip('已在新窗口打开高德地图导航');
+    }
+}
+
+/**
+ * 显示导航提示信息
+ * @description 显示导航操作的反馈信息
+ * @param {string} message - 提示信息内容
+ */
+function showNavigationTip(message) {
+    // 创建提示元素
+    const tip = document.createElement('div');
+    tip.innerHTML = `
+        <div style="position: fixed; top: 20px; right: 20px; background: rgba(46, 125, 50, 0.95); color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10000; font-size: 14px; max-width: 300px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 16px;">🧭</span>
+                <span>${message}</span>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(tip);
+    
+    // 3秒后自动移除提示
+    setTimeout(() => {
+        if (document.body.contains(tip)) {
+            tip.style.opacity = '0';
+            tip.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+                document.body.removeChild(tip);
+            }, 300);
+        }
+    }, 3000);
 }
 
 // 页面加载完成后初始化应用
