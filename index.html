@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>广州公园景区指南</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://webapi.amap.com/maps?v=2.0&key=9b0979e1b69316e5786cb6debfd37f9a"></script>
+    <script src="echarts.min.js"></script>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="logo.svg" alt="广州公园指南" class="logo-img">
+                <span class="logo-text">广州公园指南</span>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#introduction">公园介绍</a></li>
+                    <li><a href="#distribution">分布情况</a></li>
+                    <li><a href="#parks">公园列表</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Banner地图区域 -->
+    <section id="home" class="banner">
+        <div class="map-container">
+            <div id="map" class="map"></div>
+            <div class="banner-overlay">
+                <h1 class="banner-title">探索广州美丽公园</h1>
+                <p class="banner-subtitle">发现城市中的绿色宝藏</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 总体介绍 -->
+    <section id="introduction" class="introduction">
+        <div class="container">
+            <h2 class="section-title">广州公园概览</h2>
+            <div class="intro-grid">
+                <div class="intro-card">
+                    <div class="intro-icon">🌳</div>
+                    <h3>历史悠久</h3>
+                    <p>广州公园建设历史可追溯到清朝，拥有深厚的文化底蕴和历史价值。</p>
+                </div>
+                <div class="intro-card">
+                    <div class="intro-icon">🏞️</div>
+                    <h3>类型丰富</h3>
+                    <p>包含综合性公园、专类公园、社区公园等多种类型，满足不同需求。</p>
+                </div>
+                <div class="intro-card">
+                    <div class="intro-icon">🌸</div>
+                    <h3>特色鲜明</h3>
+                    <p>岭南园林风格、现代景观设计相结合，展现独特的南国风情。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 公园分布 -->
+    <section id="distribution" class="distribution">
+        <div class="container">
+            <h2 class="section-title">公园分布情况</h2>
+            <div class="chart-container">
+                <div id="distributionChart"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 公园列表 -->
+    <section id="parks" class="parks">
+        <div class="container">
+            <h2 class="section-title">公园列表</h2>
+            
+            <!-- 筛选区域 -->
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="district-filter">所属区域：</label>
+                    <select id="district-filter" class="filter-select">
+                        <option value="">全部区域</option>
+                        <option value="越秀区">越秀区</option>
+                        <option value="荔湾区">荔湾区</option>
+                        <option value="海珠区">海珠区</option>
+                        <option value="天河区">天河区</option>
+                        <option value="白云区">白云区</option>
+                        <option value="黄埔区">黄埔区</option>
+                        <option value="番禺区">番禺区</option>
+                        <option value="花都区">花都区</option>
+                        <option value="南沙区">南沙区</option>
+                        <option value="从化区">从化区</option>
+                        <option value="增城区">增城区</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="fee-filter">收费情况：</label>
+                    <select id="fee-filter" class="filter-select">
+                        <option value="">全部</option>
+                        <option value="免费">免费</option>
+                        <option value="收费">收费</option>
+                    </select>
+                </div>
+                <button id="search-btn" class="search-btn">搜索</button>
+            </div>
+
+            <!-- 公园卡片列表 -->
+            <div id="parks-grid" class="parks-grid">
+                <!-- 动态生成公园卡片 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="logo.svg" alt="广州公园指南" class="footer-logo-img">
+                        <span class="footer-logo-text">广州公园指南</span>
+                    </div>
+                    <p class="footer-desc">探索广州最美的公园景区，享受城市绿色生活。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#introduction">公园介绍</a></li>
+                        <li><a href="#distribution">分布情况</a></li>
+                        <li><a href="#parks">公园列表</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>法律信息</h4>
+                    <ul class="footer-links">
+                        <li><a href="#privacy">隐私政策</a></li>
+                        <li><a href="#terms">使用条款</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系方式</h4>
+                    <p>电话：020-12345678</p>
+                    <p>邮箱：info@gzparks.com</p>
+                    <p>地址：广州市天河区珠江新城</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 广州公园指南. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
