@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日营养菜单 - 2025年8月21日</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="40" cy="80" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .date {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            margin: 30px;
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 5px solid #FF9800;
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.15);
+        }
+
+        .summary-title {
+            font-size: 1.3rem;
+            color: #E65100;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .meals-container {
+            padding: 30px;
+        }
+
+        .meal-section {
+            margin-bottom: 40px;
+        }
+
+        .meal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #E8F5E8;
+        }
+
+        .meal-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+
+        .meal-title {
+            font-size: 1.8rem;
+            color: #2E7D32;
+            font-weight: bold;
+        }
+
+        .meal-time {
+            margin-left: auto;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .dishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .dish-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #4CAF50;
+        }
+
+        .dish-name {
+            font-size: 1.3rem;
+            color: #2E7D32;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dish-type {
+            background: #E8F5E8;
+            color: #2E7D32;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+
+        .ingredients {
+            margin-bottom: 15px;
+        }
+
+        .ingredients-title {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .ingredients-list {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .nutrition-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #E8F5E8;
+        }
+
+        .calories {
+            background: linear-gradient(135deg, #FF6B6B, #EE5A24);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .cooking-time {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            margin: 30px;
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 5px solid #2196F3;
+        }
+
+        .tips-title {
+            font-size: 1.3rem;
+            color: #1565C0;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tips-list li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+            color: #333;
+        }
+
+        .tips-list li::before {
+            content: '🌿';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .footer {
+            background: #2E7D32;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .meals-container {
+                padding: 20px 15px;
+            }
+
+            .summary-card, .tips-section {
+                margin: 20px 15px;
+                padding: 20px;
+            }
+
+            .dishes-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .meal-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .meal-time {
+                margin-left: 0;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .nutrition-info {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .meal-title {
+                font-size: 1.5rem;
+            }
+
+            .dish-card {
+                padding: 20px;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ 今日营养菜单</h1>
+            <div class="date">2025年8月21日 · 夏季时令搭配</div>
+        </div>
+
+        <div class="summary-card fade-in">
+            <div class="summary-title">📊 全天营养总览</div>
+            <div class="summary-stats">
+                <div class="stat-item">
+                    <div class="stat-number">1080-1130</div>
+                    <div class="stat-label">总热量 (大卡)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">营养餐次</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">时令食材</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">清淡</div>
+                    <div class="stat-label">夏季风格</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="meals-container">
+            <!-- 早餐 -->
+            <div class="meal-section fade-in">
+                <div class="meal-header">
+                    <span class="meal-icon">🌅</span>
+                    <span class="meal-title">早餐</span>
+                    <span class="meal-time">07:00 - 09:00</span>
+                </div>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">
+                            小米粥
+                            <span class="dish-type">主食</span>
+                        </div>
+                        <div class="ingredients">
+                            <div class="ingredients-title">🥄 主要食材</div>
+                            <div class="ingredients-list">
+                                小米 100g、山泉水 2000ml
+                            </div>
+                        </div>
+                        <div class="ingredients">
+                            <div class="ingredients-title">💡 营养价值</div>
+                            <div class="ingredients-list">
+                                富含维生素B1、B2，胡萝卜素，蛋白质9.7g/100g，易消化吸收
+                            </div>
+                        </div>
+                        <div class="nutrition-info">
+                            <span class="calories">🔥 350 大卡</span>
+                            <span class="cooking-time">⏱️ 25-30分钟</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 午餐 -->
+            <div class="meal-section fade-in">
+                <div class="meal-header">
+                    <span class="meal-icon">🍽️</span>
+                    <span class="meal-title">午餐</span>
+                    <span class="meal-time">12:00 - 13:30</span>
+                </div>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">
+                            冬瓜酿肉
+                            <span class="dish-type">主菜</span>
+                        </div>
+                        <div class="ingredients">
+                            <div class="ingredients-title">🥄 主要食材</div>
+                            <div class="ingredients-list">
+                                冬瓜200g、猪肉末300g、鸡蛋1个、葱花20g、葱姜末30g、胡椒粉5g、生抽10ml、淀粉5g
+                            </div>
+                        </div>
+                        <div class="ingredients">
+                            <div class="ingredients-title">💡 特色功效</div>
+                            <div class="ingredients-list">
+                                荤素搭配，冬瓜清热解暑，适合8月时令，鲜嫩爽滑
+                            </div>
+                        </div>
+                        <div class="nutrition-info">
+                            <span class="calories">🔥 450 大卡</span>
+                            <span class="cooking-time">⏱️ 30分钟</span>
+                        </div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">
+                            炒青菜
+                            <span class="dish-type">配菜</span>
+                        </div>
+                        <div class="ingredients">
+                            <div class="ingredients-title">🥄 主要食材</div>
+                            <div class="ingredients-list">
+                                青菜100g、食用油15ml、盐2g、白糖5g、水70ml
+                            </div>
+                        </div>
+                        <div class="ingredients">
+                            <div class="ingredients-title">💡 营养价值</div>
+                            <div class="ingredients-list">
+                                清爽解腻，补充维生素和纤维，制作简单方便
+                            </div>
+                        </div>
+                        <div class="nutrition-info">
+                            <span class="calories">🔥 80 大卡</span>
+                            <span class="cooking-time">⏱️ 10分钟</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 晚餐 -->
+            <div class="meal-section fade-in">
+                <div class="meal-header">
+                    <span class="meal-icon">🌙</span>
+                    <span class="meal-title">晚餐</span>
+                    <span class="meal-time">18:00 - 19:30</span>
+                </div>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">
+                            朱雀汤
+                            <span class="dish-type">汤品</span>
+                        </div>
+                        <div class="ingredients">
+                            <div class="ingredients-title">🥄 主要食材</div>
+                            <div class="ingredients-list">
+                                鸡蛋1个、水500ml、白糖20g、香油2ml
+                            </div>
+                        </div>
+                        <div class="ingredients">
+                            <div class="ingredients-title">💡 特色功效</div>
+                            <div class="ingredients-list">
+                                制作简单，口感顺滑，晚餐清淡易消化，适合夏季饮食
+                            </div>
+                        </div>
+                        <div class="nutrition-info">
+                            <span class="calories">🔥 150 大卡</span>
+                            <span class="cooking-time">⏱️ 5分钟</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tips-section fade-in">
+            <div class="tips-title">🌿 8月时令养生建议</div>
+            <ul class="tips-list">
+                <li>多食用清热解暑的冬瓜类蔬菜，有助于消暑降温</li>
+                <li>选择易消化的粥类作为主食，减轻肠胃负担</li>
+                <li>适量补充优质蛋白质，维持身体机能</li>
+                <li>保持饮食清淡，避免过于油腻影响消化</li>
+                <li>多喝汤水，补充夏季流失的水分和电解质</li>
+                <li>合理搭配荤素，确保营养均衡全面</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>🍃 健康饮食，从每一餐开始 · 基于大厨MCP智能推荐</p>
+        </div>
+    </div>
+
+    <script>
+        // 添加滚动动画效果
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有需要动画的元素
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // 添加卡片点击效果
+        document.querySelectorAll('.dish-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // 页面加载完成后的欢迎动画
+        window.addEventListener('load', () => {
+            document.querySelector('.header').style.animation = 'fadeIn 0.8s ease-in';
+        });
+    </script>
+</body>
+</html>

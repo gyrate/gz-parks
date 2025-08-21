@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>广州南沙热点新闻 TOP10</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a90e2 0%, #2e7d32 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="40" cy="80" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .news-grid {
+            padding: 40px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-rank {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .news-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 15px;
+        }
+
+        .news-source {
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .news-popularity {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .news-popularity::before {
+            content: '🔥';
+            font-size: 12px;
+        }
+
+        .read-more {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a90e2, #2e7d32);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .news-grid {
+                padding: 20px 15px;
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .news-content {
+                padding: 15px;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .update-time {
+            text-align: center;
+            color: #999;
+            font-size: 0.85rem;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI技术前沿资讯</h1>
+            <p>聚焦人工智能最新动态 · 探索科技发展前沿</p>
+        </div>
+
+        <div class="update-time">
+            📅 更新时间：2025年8月21日 · 数据来源：InfoQ技术资讯
+        </div>
+
+        <div class="news-grid" id="newsGrid">
+            <!-- 新闻内容将通过JavaScript动态加载 -->
+        </div>
+
+        <div class="footer">
+            <p>© 2025 AI技术资讯中心 · 数据来源于InfoQ技术社区</p>
+        </div>
+    </div>
+
+    <script>
+        // AI技术新闻数据
+        const newsData = [
+            {
+                title: "OpenAI的GPT-5现已在微软Azure AI Foundry上全面开放",
+                description: "OpenAI最新发布的GPT-5模型现已在微软Azure AI Foundry平台上全面开放，为开发者提供更强大的AI能力和更便捷的集成方案。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%234a90e2'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='20'%3E🤖 GPT-5%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3EAzure AI Foundry%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "95000",
+                publishTime: "2025-08-21 10:11:43",
+                link: "https://www.infoq.cn/article/j7t3vOzFKXH0hq9PZifG?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "面向运维的大模型！中国信通院'智域'大模型开放下载",
+                description: "中国信通院发布面向运维场景的'智域'大模型，专门为系统运维提供智能化解决方案，能够实现'治未病、愈顽疾'的运维目标。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%232e7d32'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E🏥 智域大模型%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3E运维AI助手%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "87000",
+                publishTime: "2025-08-21 10:22:38",
+                link: "https://www.infoq.cn/article/f4SS8VEQeuN4FhzdtamG?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "网易有道发布子曰教育大模型多款AI新品",
+                description: "网易有道发布子曰教育大模型及多款AI新品，定义教育AI应用能力L1-L5分级标准，推动AI在教育领域的深度应用。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%23ff6b6b'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E📚 教育AI%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3E子曰大模型%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "76000",
+                publishTime: "2025-08-20 20:45:10",
+                link: "https://www.infoq.cn/article/yVIa68gtCRZtZ3Ay1RHF?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "从OpenAI回国的90后姚班博导，打造国内首个开源Agent训练框架",
+                description: "从OpenAI团队回国的90后博导，基于十年智能体技术沉淀，打造了国内首个开源Agent训练框架，推动智能体技术在国内的发展。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%23667eea'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E🤖 Agent框架%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3E开源训练平台%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "68000",
+                publishTime: "2025-08-20 17:57:27",
+                link: "https://www.infoq.cn/article/VlLeHW4JApCJVxUIsf3w?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "Claude Code子代理使模块化AI工作流程能够在隔离的上下文中运行",
+                description: "Anthropic发布Claude Code子代理功能，支持模块化AI工作流程在隔离环境中运行，提升AI应用的安全性和可控性。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%23764ba2'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E⚡ Claude Code%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3E模块化工作流%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "62000",
+                publishTime: "2025-08-20 17:10:00",
+                link: "https://www.infoq.cn/article/TQgjTJgGkVSE8bCXElDK?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "日均生成数十万Web应用！Vercel v0.app推出最终可用版本",
+                description: "Vercel v0.app正式推出最终可用版本，日均生成数十万个Web应用，标志着AI全栈开发时代的到来，大幅提升开发效率。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%23f39c12'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E🚀 Vercel v0%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3EAI全栈开发%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "58000",
+                publishTime: "2025-08-20 15:38:00",
+                link: "https://www.infoq.cn/article/IjAzkkA6oeVtaSOO1b0Q?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "将AI注入Java应用程序",
+                description: "详细介绍如何将人工智能技术集成到Java应用程序中，包括机器学习库的使用、AI模型的部署和性能优化策略。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%23e74c3c'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E☕ Java + AI%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3E应用集成%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "54000",
+                publishTime: "2025-08-20 15:00:00",
+                link: "https://www.infoq.cn/article/v9i4XWoTqjUExISjTV81?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "Arm推出业内首创的面向GPU的'神经技术'",
+                description: "Arm公司推出业界首创的面向GPU的神经处理技术，为移动设备注入强大的AI计算能力，推动边缘AI应用的发展。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%2327ae60'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E🧠 神经技术%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3EGPU加速%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "51000",
+                publishTime: "2025-08-21 09:48:44",
+                link: "https://www.infoq.cn/article/sFO5pekjqeHLH7oc8ucz?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "跨越学术与产业：中英青年科学家共话AI落地挑战",
+                description: "中英两国青年科学家齐聚一堂，深入探讨人工智能技术从学术研究到产业应用的挑战与机遇，分享AI落地的实践经验。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%239b59b6'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E🌍 AI合作%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3E学术产业%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "47000",
+                publishTime: "2025-08-20 16:54:07",
+                link: "https://www.infoq.cn/article/ecrmgKidvrs1vVQJVS9Z?utm_source=rss&utm_medium=article"
+            },
+            {
+                title: "MCP C# SDK符合新协议规范，带来了安全性和工具更新",
+                description: "微软发布的MCP C# SDK更新，符合最新协议规范，在安全性和开发工具方面带来重要改进，提升开发者体验。",
+                cover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='200' viewBox='0 0 350 200'%3E%3Crect width='350' height='200' fill='%2334495e'/%3E%3Ctext x='175' y='90' text-anchor='middle' fill='white' font-size='18'%3E🔧 MCP SDK%3C/text%3E%3Ctext x='175' y='120' text-anchor='middle' fill='white' font-size='14'%3EC# 开发工具%3C/text%3E%3C/svg%3E",
+                source: "InfoQ",
+                popularity: "43000",
+                publishTime: "2025-08-21 13:00:00",
+                link: "https://www.infoq.cn/article/zwMi7cRxYKEGbtPS43Cd?utm_source=rss&utm_medium=article"
+            }
+        ];
+
+        // 格式化数字
+        function formatNumber(num) {
+            const number = parseInt(num);
+            if (number >= 10000) {
+                return (number / 10000).toFixed(1) + '万';
+            }
+            return number.toLocaleString();
+        }
+
+        // 渲染新闻列表
+        function renderNews() {
+            const newsGrid = document.getElementById('newsGrid');
+            
+            newsData.forEach((news, index) => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                
+                newsCard.innerHTML = `
+                    <div class="news-rank">${index + 1}</div>
+                    <div class="news-image" style="background-image: url('${news.cover}')"></div>
+                    <div class="news-content">
+                        <h3 class="news-title">${news.title}</h3>
+                        <p class="news-description">${news.description}</p>
+                        <div class="news-meta">
+                            <span class="news-source">${news.source}</span>
+                            <span class="news-popularity">${formatNumber(news.popularity)}</span>
+                        </div>
+                        <a href="${news.link}" target="_blank" class="read-more">阅读全文 →</a>
+                    </div>
+                `;
+                
+                newsGrid.appendChild(newsCard);
+            });
+        }
+
+        // 页面加载完成后渲染新闻
+        document.addEventListener('DOMContentLoaded', renderNews);
+    </script>
+</body>
+</html>
