@@ -1,8 +1,18 @@
 # 广州公园景区指南
 
-一个基于高德地图API的广州市公园景区展示网页，提供公园信息查询、地图定位、分布统计等功能。
+## 项目简介
 
-DEMO地址： https://gyrate.github.io/gz-parks/
+基于高德地图API开发的广州市公园景区指南网站，提供公园信息查询、分布统计、导航等功能。
+
+## 在线访问
+
+### 🌐 项目页面
+
+- **🏞️ [广州公园指南](https://gyrate.github.io/gz-parks/)** - 主页面，公园信息查询和地图导航
+- **🤖 [AI技术资讯](https://gyrate.github.io/gz-parks/hot-news.html)** - 最新AI技术新闻和发展动态
+- **🍽️ [营养菜单](https://gyrate.github.io/gz-parks/daily-menu.html)** - 智能推荐的一日三餐营养搭配
+- **📰 [公司周报](https://gyrate.github.io/gz-parks/weekly-report.html)** - 中科智城企业周报展示
+
 
 ## 功能特色
 
